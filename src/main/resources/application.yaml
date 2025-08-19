@@ -1,0 +1,68 @@
+#spring.application.name=account
+spring:
+  application:
+    name: ACCOUNT
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/pd_db?allowpublickeyretrieval=true&usessl=false&serverTimezone=UTC
+    username: eddi
+    password: eddi@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    dialect: org.hibernate.dialect.MySQL8Dialect
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+    database: mysql
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: eddi@123
+
+server:
+  port: 7777
+
+
+frontend:
+  authentication:
+    origins: ${FRONTEND_AUTHENTICATION_ORIGINS}
+
+kakao:
+  login-url: ${KAKAO_LOGIN_URL}
+  client-id: ${KAKAO_CLIENT_ID}
+  redirect-uri: ${KAKAO_REDIRECT_URI}
+  token-request-uri: ${KAKAO_TOKEN_REQUEST_URI}
+  user-info-request-uri: ${KAKAO_USER_INFO_REQUEST_URI}
+
+google:
+  login-url: ${GOOGLE_LOGIN_URL}
+  client-id: ${GOOGLE_CLIENT_ID}
+  client-secret: ${GOOGLE_CLIENT_SECRET}
+  redirect-uri: ${GOOGLE_REDIRECT_URI}
+  token-request-uri: ${GOOGLE_TOKEN_REQUEST_URI}
+  user-info-request-uri: ${GOOGLE_USER_INFO_REQUEST_URI}
+
+naver:
+  login-url: ${NAVER_LOGIN_URL}
+  client-id: ${NAVER_CLIENT_ID}
+  client-secret: ${NAVER_CLIENT_SECRET}
+  redirect-uri: ${NAVER_REDIRECT_URI}
+  token-request-uri: ${NAVER_TOKEN_REQUEST_URI}
+  user-info-request-uri: ${NAVER_USER_INFO_REQUEST_URI}
+
+logging:
+  level:
+    com.example.account: DEBUG
+    org.springframework.data.redis: DEBUG
+
