@@ -8,6 +8,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Slf4j
@@ -34,19 +36,20 @@ public class KakaoAuthenticationRepositoryImpl implements KakaoAuthenticationRep
         this.redirectUri = redirectUri;
         this.tokenRequestUri = tokenRequestUri;
         this.userInfoRequestUri = userInfoRequestUri;
-
         this.restTemplate = restTemplate;
     }
 
-    public String getLoginLink(){
-        System.out.println("getLoginLink() for Login");
-        return String.format("%s/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code",
-                loginUrl, clientId, redirectUri);
+    @Override
+    public String getLoginLink() {
+        String encRedirect = URLEncoder.encode(redirectUri, StandardCharsets.UTF_8);
+        String url = String.format("%s/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code",
+                loginUrl, clientId, encRedirect);
+        log.info("Kakao authorize URL: {}", url);  // 임시 로그
+        return url;
     }
 
     @Override
     public Map<String, Object> getAccessToken(String code) {
-
         MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
         formData.add("grant_type", "authorization_code");
         formData.add("client_id", clientId);
@@ -65,10 +68,8 @@ public class KakaoAuthenticationRepositoryImpl implements KakaoAuthenticationRep
 
     @Override
     public Map<String, Object> getUserInfo(String accessToken) {
-
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
-
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<Map> response = restTemplate.exchange(
@@ -77,5 +78,4 @@ public class KakaoAuthenticationRepositoryImpl implements KakaoAuthenticationRep
         log.info("User Info: {}", response.getBody());
         return response.getBody();
     }
-
 }

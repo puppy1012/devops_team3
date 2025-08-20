@@ -36,12 +36,13 @@ server:
 
 frontend:
   authentication:
-    origins: ${FRONTEND_AUTHENTICATION_ORIGINS}
+    origins:
+      - http://localhost:5000
 
 kakao:
   login-url: ${KAKAO_LOGIN_URL}
   client-id: ${KAKAO_CLIENT_ID}
-  redirect-uri: ${KAKAO_REDIRECT_URI}
+  redirect-uri: http://127.0.0.1:7777/account/kakao-authentication/login
   token-request-uri: ${KAKAO_TOKEN_REQUEST_URI}
   user-info-request-uri: ${KAKAO_USER_INFO_REQUEST_URI}
 

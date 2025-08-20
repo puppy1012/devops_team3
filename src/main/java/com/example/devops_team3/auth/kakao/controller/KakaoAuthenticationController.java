@@ -34,4 +34,11 @@ public class KakaoAuthenticationController {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "카카오 로그인 실패: "+e.getMessage());
         }
     }
+
+    @GetMapping("/start")
+    public void startLogin(HttpServletResponse response) throws IOException {
+        // Repository를 서비스에서 래핑해서 URL 생성하도록 추가
+        String authorizeUrl = kakaoAuthenticationService.getLoginLink();
+        response.sendRedirect(authorizeUrl);
+    }
 }
