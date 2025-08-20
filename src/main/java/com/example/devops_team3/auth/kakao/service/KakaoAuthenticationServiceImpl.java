@@ -64,6 +64,12 @@ public class KakaoAuthenticationServiceImpl implements KakaoAuthenticationServic
         return new ExistingUserKakaoLoginResponse(userToken, nickname, email, origin);
     }
 
+    @Override
+    public String getLoginLink() {
+        // Repository에 이미 getLoginLink() 구현돼 있음
+        return kakaoAuthRepository.getLoginLink();
+    }
+
     private String extractNickname(Map<String,Object> userInfo) {
         return (String) ((Map<?,?>) userInfo.get("properties")).get("nickname");
     }

@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
+@CrossOrigin(origins = {"http://localhost:5000","http://localhost:5001"})
 @RestController
 @RequestMapping("/place")
 public class PlaceController {
